@@ -1,0 +1,54 @@
+import json
+
+def salvar_filmes(filmes):
+    with open("filmes.json", "w") as arquivo:
+        json.dump(filmes, arquivo, indent=4)
+
+def carregar_filmes():
+    try:
+        with open("filmes.json", "r") as arquivo:
+            return json.load(arquivo)
+    except:
+        return []
+
+filmes = carregar_filmes()
+
+while True:
+    print("\n1 - adicionar filme")
+    print("2 - listar filmes")
+    print("3 - deletar filme")
+    print("4 - sair")
+
+
+    opcao = input("Selecione Sua opção: ")
+
+    if opcao == "1":
+        nome = input("Nome do Filme: ")
+        nota = float(input("Nota de (0 a 10): "))
+        genero = input("Gênero: ")
+
+        filme = {
+            "nome": nome,
+            "nota": nota,
+            "genero": genero,
+        }
+
+        filmes.append(filme)
+        print("filme adicionado!" )     
+
+    elif opcao == "2":
+        if not filmes:
+            print("nenhum filme cadastrado")
+        else:
+            for i, filme in enumerate(filmes,start=1):
+                print(f"{i} - {filme['nome']} | Nota: {filme['nota']} | gênero: {filme['genero']}")
+    
+    elif opcao == "3":
+        indice = int(input("selecione o index: ")) - 1
+        filmes.pop(indice)
+        print("filme deletado...")
+    
+    elif opcao == "4":
+        salvar_filmes(filmes)
+        print("dados salvos, saindo...")
+        break
